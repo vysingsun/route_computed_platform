@@ -1,0 +1,26 @@
+version: '3'
+services:
+  db:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    #    restart: always
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 'fastcomputing'
+      MYSQL_DATABASE: 'fastroutecomputing_db'
+    ports:
+      - 3307:3306
+  
+  platform:
+    build: ./platform
+    volumes:
+    - ./platform/src:/src/
+    - ./platform/fastroutecomputing_log:/fastroutecomputing_log/
+    command:
+      ['python', 'manage.py', 'runserver', '0.0.0.0:80']
+    ports:
+    - 8093:80
+    depends_on:
+    - db
+    

@@ -1,0 +1,32 @@
+<!doctype html>
+{% load static %}
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <script>
+        L_NO_TOUCH = false;
+        L_DISABLE_3D = false;
+    </script>
+    <link rel="stylesheet" href="{% static 'dist/leaflet.css' %}" />
+    <script src="{% static 'dist/leaflet.js' %}"></script>
+    <title>FCR</title>
+    <style type="text/css">
+        body {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 style="margin-bottom: 0">Fast Computing Route</h1>
+        <a href="{% url 'index' %}">home</a> |
+        <a href="">Direction</a>    |
+        <a href="{% url 'google_map' %}">Google Map</a> |
+        <a href="{% url 'open_street_map' %}">Open Street Map</a>
+        <a href="{% url 'get_route_waze' %}">API</a>
+    </header>
+    <hr>{% block content %} {% endblock %}
+</body>
+</html>

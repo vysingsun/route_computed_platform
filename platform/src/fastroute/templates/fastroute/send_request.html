@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Get_API</title>
+</head>
+
+<body>
+    <form method="POST" action="//">
+        {% csrf_token %}
+        <input type="text" name="startpoint" value="" placeholder="lat~lng start">
+        <input type="text" name="endpoint" value="" placeholder="lat~lng end">
+        <input type="submit" value="Submit">
+    </form>
+</body>
+
+</html>

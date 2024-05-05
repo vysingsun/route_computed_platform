@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeZTqGegXOWEH6-f9OMVSZHZScVy2LDB4&callback=initMap"></script>
+        <div id="map" style="position:absolute;width: 100%;height: 100%;left: 0px"></div>
+        <div style="position: absolute;right: 0px;top: 0px; background: white;color: black">
+            <b>Distance: {{distance}}</b>km <br/>
+            <b>Duration: {{duration}}</b><br/>
+            <b>old_time: {{old_time}}</b><br/>
+            <b>Using Model: << {{model}} >></b><br/>
+        </div>
+    </div>
+    <script>
+        function initMap() {
+            var startpoint = {lat:{{lat_s}},lng:{{lng_s}}}
+            var endpoint = {lat:{{lat_e}},lng:{{lng_e}}}
+            var center = {lat:(startpoint.lat+endpoint.lat)/2,lng:(startpoint.lng+endpoint.lng)/2}
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 14,
+                center: center,
+                mapTypeId: 'terrain',
+            });
+            var marker_startpoint = new google.maps.Marker({
+                position: startpoint,
+                map: map,
+                title: 'Your current location'
+            });
+            var marker_endpoint = new google.maps.Marker({
+                position: endpoint,
+                map: map,
+                draggable: true,
+                animation: google.maps.Animation.DROP,
+                title: 'Arrival'
+            });
+
+            var flightPlanCoordinates = [{{map}}];
+            var flightPath = new google.maps.Polyline({
+                path: flightPlanCoordinates,
+                geodesic: true,
+                strokeColor: '#0066ff',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+            flightPath.setMap(map);
+
+            var delay = [{{delay_map}}];
+            var delayPath = new google.maps.Polyline({
+                path: delay,
+                geodesic: true,
+                strokeColor: '#FF0000',
+                strokeOpacity: 1.0,
+                strokeWeight: 1.5
+            });
+            delayPath.setMap(map);
+        }
+    </script>
+    {% for index in data_delay %}
+        <script>
+            var d{{index.block.length}} = new google.maps.Polyline({
+                path: [{% for i in index.block %}{lat:{{i.0}},lng:{{i.1}}},{%endfor%}],
+                geodesic: true,
+                strokeColor: '{{index.route_color}}',
+                strokeOpacity: 1.0,
+                strokeWeight: 1.5
+            });
+            d{{index.block.length}}.setMap(map);
+        </script>
+    {% endfor %}
+{%endblock%}
