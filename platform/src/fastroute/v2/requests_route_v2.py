@@ -23,22 +23,6 @@ class RequestRouteV2:
         self.full_route["start_point"] = eval('[{},{}]'.format(self.conditions["start_point"]["lat"], self.conditions["start_point"]["lng"]))
         self.full_route["end_point"] = eval('[{},{}]'.format(self.conditions["end_point"]["lat"], self.conditions["end_point"]["lng"]))
         for name in self.conditions:
-            # while name is "route":
-            #     if self.conditions[name] == "osrm":
-            #         self.dynamic_route("osrm")
-            #     else:
-            #         self.dynamic_route("graph")
-            #     self.full_route["geometries"]["duration"] = duration
-            #     break
-            while name is "scan":
-                if self.conditions[name] == True:
-                    self.scan_route()
-                    self.full_route["geometries"]["duration"] = duration
-                    self.full_route["geometries"]["duration"] = route.get_duration()
-                    self.full_route["geometries"]["blocks_scan"] = self.block_scan_data
-                # else:
-                    # self.full_route["geometries"]["blocks_scan"] = []
-                break
             while name is "weather":
                 if not self.conditions[name] is None:
                     self.full_route["geometries"]["weather"] = self.conditions[name]
